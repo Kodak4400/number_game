@@ -1,47 +1,51 @@
-import OptionButton from '../components/OptionButton.vue'
+import Button from '../components/items/Button.vue'
 
 export default {
   title: 'Example/Button',
-  component: OptionButton,
-  // More on argTypes: https://storybook.js.org/docs/vue/api/argtypes
+  component: Button,
   argTypes: {
-    backgroundColor: { control: 'color' },
     onClick: {},
-    size: {
+    color: {
       control: { type: 'select' },
-      options: ['small', 'medium', 'large'],
+      options: ['normal', 'primary', 'success', 'warning', 'error', 'disabled'],
     },
   },
 }
 
 const Template = args => ({
-  components: { OptionButton },
+  components: { Button },
   setup() {
     return { args }
   },
-  template: '<OptionButton v-bind="args" />',
+  template: '<Button v-bind="args" />',
 })
 
 export const Primary = Template.bind({})
-// More on args: https://storybook.js.org/docs/vue/writing-stories/args
 Primary.args = {
-  primary: true,
+  color: 'primary',
   label: 'Button',
 }
 
-export const Secondary = Template.bind({})
-Secondary.args = {
+export const Success = Template.bind({})
+Success.args = {
+  color: 'success',
   label: 'Button',
 }
 
-export const Large = Template.bind({})
-Large.args = {
-  size: 'large',
+export const Warning = Template.bind({})
+Warning.args = {
+  color: 'warning',
   label: 'Button',
 }
 
-export const Small = Template.bind({})
-Small.args = {
-  size: 'small',
+export const Error = Template.bind({})
+Error.args = {
+  color: 'error',
+  label: 'Button',
+}
+
+export const Disabled = Template.bind({})
+Disabled.args = {
+  color: 'disabled',
   label: 'Button',
 }

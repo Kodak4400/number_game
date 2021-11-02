@@ -6,5 +6,5 @@
 - Vite
 - Vue 3 Composition API 
 - TypeScript
-- Storybook
+- Storybook <- 重すぎて使えない。
 - nes.css
