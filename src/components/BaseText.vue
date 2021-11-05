@@ -3,9 +3,9 @@
 </template>
 
 <script lang="ts">
-import { reactive, computed } from 'vue'
+import { reactive, computed, defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   props: {
     text: {
       type: String,
@@ -13,18 +13,17 @@ export default {
     },
     color: {
       type: String,
-      validator: function (value) {
+      validator: (value: string) => {
         return ['primary', 'success', 'warning', 'error', 'disabled'].indexOf(value) !== -1
       },
     },
     size: {
       type: String,
-      validator: function (value) {
+      validator: (value: string) => {
         return ['small', 'medium', 'large'].indexOf(value) !== -1
       },
     },
   },
-
   setup(props, { emit }) {
     props = reactive(props)
     return {
@@ -39,8 +38,7 @@ export default {
       })),
     }
   }
-
-}
+})
 </script>
 
 <style scoped>
