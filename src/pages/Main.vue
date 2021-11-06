@@ -5,11 +5,11 @@
     </div>
     <BaseContainer text="表示された数字を３０秒間に、どれだけ多く押せるかをきそうゲームです。" />
     <BaseInput label="Your nickname" />
-    <BaseButton label="START" color="primary" />
+    <BaseButton label="START" color="primary" action="go-to-game-start" />
     <div class="main-config">
-      <BaseButton label="Ranking" color="normal" />
+      <BaseButton label="Ranking" color="normal" action="change-mode2" />
       <BaseButton label="NORMAL MODE" color="primary" action="change-mode" />
-      <BaseButton label="Credit" color="normal" />
+      <BaseButton label="Credit" color="normal" action="change-mode4" />
     </div>
   </div>
 </template>

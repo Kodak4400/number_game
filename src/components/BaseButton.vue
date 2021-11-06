@@ -3,8 +3,10 @@
 </template>
 
 <script lang="ts">
-import { reactive, ref, toRefs, computed, defineComponent } from 'vue'
+import { reactive, toRefs, computed, defineComponent } from 'vue'
 import { useChangeMode } from '@/composables/use-change-mode'
+// import { useAction } from '@/composables/use-action'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   props: {
@@ -25,9 +27,11 @@ export default defineComponent({
     }
   },
   setup(props, context) {
-    const {label, color} = toRefs(reactive({
+    const router = useRouter()
+    const {label, color, action} = toRefs(reactive({
       label: props.label,
       color: props.color,
+      action: 'use' + props.action.split('-').map(n => n.slice(0, 1).toUpperCase() + n.slice(1), 1).join('')
     }))
 
     const classes = computed(() => ({
@@ -40,9 +44,19 @@ export default defineComponent({
     }))
 
     const onClick = () => {
-      const { changeLabel, changeButtonColor } = useChangeMode()
-      label.value = changeLabel
-      color.value = changeButtonColor
+      switch(action.value) {
+        case 'useChangeMode':
+          // const { changeLabel, changeButtonColor } = useAction(action.value, [label.value, color.value])
+          const { changeLabel, changeButtonColor } = useChangeMode(label.value, color.value)
+          label.value = changeLabel
+          color.value = changeButtonColor
+          break
+        case 'useGoToGameStart':
+          router.push('/start')
+          break
+        default:
+          break
+      }
     }
 
     return {

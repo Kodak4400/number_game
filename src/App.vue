@@ -2,7 +2,7 @@
   <metainfo>
     <template v-slot:title="{ content }">{{ content ? `${content} | SITE_NAME` : `SITE_NAME` }}</template>
   </metainfo>
-  <Main />
+  <router-view></router-view>
 </template>
 
 <script lang="ts">

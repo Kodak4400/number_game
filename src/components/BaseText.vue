@@ -20,6 +20,7 @@ export default defineComponent({
     size: {
       type: String,
       validator: (value: string) => {
+        // 今のところ、small, mediumは作っていない
         return ['small', 'medium', 'large'].indexOf(value) !== -1
       },
     },
