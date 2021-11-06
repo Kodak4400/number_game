@@ -1,10 +1,9 @@
 <template>
-  <button type="button" :class="classes" @click="onClick">{{ text }}</button>
+  <button type="button" :class="classes" @click="onClick">{{ label }}</button>
 </template>
 
 <script lang="ts">
 import { reactive, ref, toRefs, computed, defineComponent } from 'vue'
-import { getHeavyText } from '@/composables/use-sample'
 import { useChangeMode } from '@/composables/use-change-mode'
 
 export default defineComponent({
@@ -18,32 +17,36 @@ export default defineComponent({
       validator: (value: string) => {
         return ['normal', 'primary', 'success', 'warning', 'error', 'disabled'].indexOf(value) !== -1
       },
+      required: true,
     },
     action: {
-      type: String
+      type: String,
+      required: true,
     }
   },
   setup(props, context) {
-    props = reactive(props)
+    const {label, color} = toRefs(reactive({
+      label: props.label,
+      color: props.color,
+    }))
 
-    const text = ref(props.label)
     const classes = computed(() => ({
       'nes-btn': true,
-      'is-primary': props.color === 'primary' ? true : false,
-      'is-success': props.color === 'success' ? true : false,
-      'is-warning': props.color === 'warning' ? true : false,
-      'is-error': props.color === 'error' ? true : false,
-      'is-disabled': props.color === 'disabled' ? true : false,
+      'is-primary': color.value === 'primary' ? true : false,
+      'is-success': color.value === 'success' ? true : false,
+      'is-warning': color.value === 'warning' ? true : false,
+      'is-error': color.value === 'error' ? true : false,
+      'is-disabled': color.value === 'disabled' ? true : false,
     }))
 
     const onClick = () => {
-      const { ChangeLabel, ChangeButton } = useChangeMode()
-      text.value = ChangeLabel
-  
+      const { changeLabel, changeButtonColor } = useChangeMode()
+      label.value = changeLabel
+      color.value = changeButtonColor
     }
 
     return {
-      text,
+      label,
       classes,
       onClick
     }
