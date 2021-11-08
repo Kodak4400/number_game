@@ -1,3 +1,4 @@
+import GamePlay from '@/pages/GamePlay.vue'
 import GameStart from '@/pages/GameStart.vue'
 import Main from '@/pages/Main.vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
@@ -10,6 +11,10 @@ const routes = [
   {
     path: '/start',
     component: GameStart,
+  },
+  {
+    path: '/play',
+    component: GamePlay,
   },
 ]
 

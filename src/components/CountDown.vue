@@ -4,6 +4,7 @@
 
 <script lang="ts">
 import { reactive, toRefs, computed, defineComponent } from 'vue'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   props: {
@@ -16,6 +17,7 @@ export default defineComponent({
       validator: (value: string) => {
         return ['primary', 'success', 'warning', 'error', 'disabled'].indexOf(value) !== -1
       },
+      required: true,
     },
     size: {
       type: String,
@@ -23,14 +25,21 @@ export default defineComponent({
         // 今のところ、small, mediumは作っていない
         return ['small', 'medium', 'large'].indexOf(value) !== -1
       },
+      required: true,
     },
+    action: {
+      type: String,
+      required: true,
+    }
   },
   setup(props, { emit }) {
+    const router = useRouter()
     const {count, color, size} = toRefs(reactive({
       count: props.count,
       color: props.color,
-      size: props.size
+      size: props.size,
     }))
+    const action = 'use' + props.action.split('-').map(n => n.slice(0, 1).toUpperCase() + n.slice(1), 1).join('')
 
     const classes = computed(() => ({
       'nes-text': true,
@@ -44,11 +53,17 @@ export default defineComponent({
 
     const timer = computed(() => {
       if (count.value === 0) {
+        switch (action) {
+          case 'useGoToGamePlay':
+            router.push('/play')
+            break
+          default:
+            break
+        }
         return '0'
       }
       return count.value
     })
-
 
     const endDate = new Date(new Date().getTime() + count.value * 1000);
     const id = setInterval(() => {
@@ -71,6 +86,6 @@ export default defineComponent({
     font-family: "Nu きなこもち";
   }
   .large {
-    font-size: 2rem;
+    font-size: 6rem;
   }
 </style>

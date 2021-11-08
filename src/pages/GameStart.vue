@@ -1,7 +1,6 @@
 <template>
-  <div>
-    Screen Game Start 
-    <CountDown :count="3" color="primary" size="large" />
+  <div class="game-start">
+    <CountDown :count="3" color="primary" size="large" action="go-to-game-play"/>
   </div>
 </template>
 
@@ -15,3 +14,12 @@ export default defineComponent ({
   },
 })
 </script>
+
+<style scoped>
+  .game-start {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+</style>

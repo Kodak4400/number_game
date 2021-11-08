@@ -28,11 +28,11 @@ export default defineComponent({
   },
   setup(props, context) {
     const router = useRouter()
-    const {label, color, action} = toRefs(reactive({
+    const {label, color } = toRefs(reactive({
       label: props.label,
       color: props.color,
-      action: 'use' + props.action.split('-').map(n => n.slice(0, 1).toUpperCase() + n.slice(1), 1).join('')
     }))
+    const action = 'use' + props.action.split('-').map(n => n.slice(0, 1).toUpperCase() + n.slice(1), 1).join('')
 
     const classes = computed(() => ({
       'nes-btn': true,
@@ -44,7 +44,7 @@ export default defineComponent({
     }))
 
     const onClick = () => {
-      switch(action.value) {
+      switch(action) {
         case 'useChangeMode':
           // const { changeLabel, changeButtonColor } = useAction(action.value, [label.value, color.value])
           const { changeLabel, changeButtonColor } = useChangeMode(label.value, color.value)
