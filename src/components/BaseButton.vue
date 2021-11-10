@@ -3,10 +3,11 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs, computed, defineComponent } from 'vue'
+import { inject, reactive, toRefs, computed, defineComponent } from 'vue'
 import { useChangeMode } from '@/composables/use-change-mode'
 // import { useAction } from '@/composables/use-action'
 import { useRouter } from 'vue-router'
+import { StateDataInterface, storeKey } from '@/vueStore'
 
 export default defineComponent({
   props: {
@@ -52,6 +53,8 @@ export default defineComponent({
           color.value = changeButtonColor
           break
         case 'useGoToGameStart':
+          // const val = inject<StateDataInterface>(storeKey)
+          // console.log(val)
           router.push('/start')
           break
         default:

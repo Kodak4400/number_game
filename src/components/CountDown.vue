@@ -22,7 +22,7 @@ export default defineComponent({
     size: {
       type: String,
       validator: (value: string) => {
-        // 今のところ、small, mediumは作っていない
+        // 今のところ、smallは作っていない
         return ['small', 'medium', 'large'].indexOf(value) !== -1
       },
       required: true,
@@ -49,6 +49,7 @@ export default defineComponent({
       'is-error': color.value === 'error' ? true : false,
       'is-disabled': color.value === 'disabled' ? true : false,
       'large': size.value === 'large' ? true : false,
+      'medium': size.value === 'medium' ? true : false,
     }))
 
     const timer = computed(() => {
@@ -87,5 +88,8 @@ export default defineComponent({
   }
   .large {
     font-size: 6rem;
+  }
+  .medium {
+    font-size: 3rem;
   }
 </style>

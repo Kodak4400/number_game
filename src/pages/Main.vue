@@ -4,7 +4,7 @@
       <BaseText text="ノートレゲーム" color="success" size="large" />
     </div>
     <BaseContainer text="表示された数字を３０秒間に、どれだけ多く押せるかをきそうゲームです。" />
-    <BaseInput label="Your nickname" />
+    <BaseInput label="Your nickname" :name="name" @input:name="changeName" />
     <BaseButton label="START" color="primary" action="go-to-game-start" />
     <div class="main-config">
       <BaseButton label="Ranking" color="normal" action="change-mode2" />
@@ -19,7 +19,8 @@ import BaseButton from '@/components/BaseButton.vue';
 import BaseContainer from '@/components/BaseContainer.vue';
 import BaseInput from '@/components/BaseInput.vue';
 import BaseText from '@/components/BaseText.vue';
-import { defineComponent } from 'vue';
+import { ref, defineComponent } from 'vue';
+import { useStore } from '@/store'
 
 export default defineComponent ({
   components: {
@@ -28,6 +29,20 @@ export default defineComponent ({
     BaseInput,
     BaseText,
   },
+  setup(props, { emit }) {
+    const name = ref('')
+    const store = useStore()
+
+    const changeName = (value: string) => {
+      name.value = value
+      store.commit('setUser', { name: value, score: 0 })
+    }
+
+    return {
+      name,
+      changeName,
+    }
+  }
 })
 </script>
 
