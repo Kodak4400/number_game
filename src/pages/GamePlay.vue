@@ -5,7 +5,7 @@
       <NumberView :label="number" action="delete-number" v-for="number in actionNumbers" :key="number"/>
     </div>
     <div class="game-play-number-buttons">
-      <NumberButton :label="1" action="click-number" @click:number="clickNumber" />
+      <NumberButton :label="key" action="click-number" @click:number="clickNumber" v-for="key in keys" :key="key"/>
     </div>
   </div>
 </template>
@@ -15,6 +15,7 @@ import { defineComponent, reactive, watch, computed } from 'vue';
 import CountDown from '@/components/CountDown.vue'
 import NumberButton from '@/components/NumberButton.vue';
 import NumberView from '@/components/NumberView.vue';
+import { RandomNumber } from '@/composables/use-random-number';
 
 export default defineComponent ({
   components: {
@@ -24,25 +25,33 @@ export default defineComponent ({
   },
   setup(props, { emit }) {
     const MaxNumbers = 5
-    const numbers = reactive<Array<number>>([])
-    const keys = reactive<Array<number>>([])
+    const useRandomNumber = new RandomNumber(5)
+    const useRandomKeys = new RandomNumber(10)
+
+    const numbers = reactive<Array<number>>(useRandomNumber.getNumbers())
+    const keys = reactive<Array<number>>(useRandomKeys.getNumbers())
 
     const actionNumbers = computed(() => {
+      if (!numbers.length) {
+        useRandomNumber.init()
+        useRandomNumber.getNumbers().map(n => numbers.push(n))
+        return numbers
+      }
       return numbers
     })
 
-    watch(numbers, () => {
-      if (!numbers.length) {
-        addNumber()
-      }
-    })
+    // watch(numbers, () => {
+    //   if (!numbers.length) {
+    //     addNumber()
+    //   }
+    // })
 
-    const addNumber = () => {
-      for (let i = 0; i < MaxNumbers; i++) {
-        numbers.push(Math.floor(Math.random() * 10))
-      }
-    }
-    addNumber()
+    // const addNumber = () => {
+    //   for (let i = 0; i < MaxNumbers; i++) {
+    //     numbers.push(Math.floor(Math.random() * 10))
+    //   }
+    // }
+    // addNumber()
 
     const removeNumber = (value: string) => {
       const number = parseInt(value, 10)
@@ -52,13 +61,6 @@ export default defineComponent ({
       console.log(numbers)
     }
 
-    const changeKeys = () => {
-      keys.splice(0)
-      for (let i = 0; i < 9; i++) {
-        keys.push(Math.floor(Math.random() * 10))
-      }
-    }
-
     const clickNumber = (value: string) => {
       removeNumber(value)
       console.log(`Click number ${value}`);
@@ -66,7 +68,8 @@ export default defineComponent ({
 
     return {
       clickNumber,
-      actionNumbers
+      actionNumbers,
+      keys
     }
   }
 })
