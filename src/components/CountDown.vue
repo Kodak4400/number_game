@@ -52,11 +52,32 @@ export default defineComponent({
       'medium': size.value === 'medium' ? true : false,
     }))
 
+    const timerColor = (timerCount: number) => {
+      switch (action) {
+        case 'useGoToGamePlay':
+          break
+        case 'useGoToGameEnd':
+          if (timerCount < 10) {
+            color.value = 'warning'
+          }
+          if (timerCount < 5) {
+            color.value = 'error'
+          }
+          break
+        default:
+          break
+      }
+    }
+
     const timer = computed(() => {
+      timerColor(count.value)
       if (count.value === 0) {
         switch (action) {
           case 'useGoToGamePlay':
             router.push('/play')
+            break
+          case 'useGoToGameEnd':
+            router.push('/end')
             break
           default:
             break
@@ -66,6 +87,7 @@ export default defineComponent({
       return count.value
     })
 
+    // カウントダウンさせる
     const endDate = new Date(new Date().getTime() + count.value * 1000);
     const id = setInterval(() => {
       count.value--

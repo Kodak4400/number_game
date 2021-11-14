@@ -8,6 +8,7 @@ import { useChangeMode } from '@/composables/use-change-mode'
 // import { useAction } from '@/composables/use-action'
 import { useRouter } from 'vue-router'
 import { StateDataInterface, storeKey } from '@/vueStore'
+import { useStore } from '@/store'
 
 export default defineComponent({
   props: {
@@ -29,6 +30,7 @@ export default defineComponent({
   },
   setup(props, context) {
     const router = useRouter()
+    const store = useStore()
     const {label, color } = toRefs(reactive({
       label: props.label,
       color: props.color,
@@ -55,6 +57,9 @@ export default defineComponent({
         case 'useGoToGameStart':
           // const val = inject<StateDataInterface>(storeKey)
           // console.log(val)
+          if (store.state.User.name.length) {
+            // ボタンを押せなくするかは考える
+          }
           router.push('/start')
           break
         default:

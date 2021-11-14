@@ -1,3 +1,4 @@
+import GameEnd from '@/pages/GameEnd.vue'
 import GamePlay from '@/pages/GamePlay.vue'
 import GameStart from '@/pages/GameStart.vue'
 import Main from '@/pages/Main.vue'
@@ -15,6 +16,10 @@ const routes = [
   {
     path: '/play',
     component: GamePlay,
+  },
+  {
+    path: '/end',
+    component: GameEnd,
   },
 ]
 

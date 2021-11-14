@@ -44,3 +44,11 @@ export default defineComponent({
   },
 })
 </script>
+
+<style scoped>
+  .nes-btn {
+    width: 10vh;
+    height: 10vh;
+    margin: 1vh;
+  }
+</style>
