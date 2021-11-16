@@ -1,12 +1,16 @@
 <template>
   <div class="nes-field">
     <label for="name_field">{{ label }}</label>
-    <input type="text" id="name_field" class="nes-input name-input" placeholder="ニックネーム" :value="name" @input="$emit('input:name', $event.target.value)">
+    <input type="text" id="name_field" class="nes-input name-input" placeholder="ニックネーム" :value="name" @input="onInput">
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+
+interface HTMLEvent<T extends EventTarget> extends Event {
+  target: T;
+}
 
 export default defineComponent({
   props: {
@@ -20,8 +24,14 @@ export default defineComponent({
     }
   },
   emits: ['input:name'],
-  setup(props, { emit }) {
-    return {}
+  setup(props, context) {
+    const onInput = (e: HTMLEvent<HTMLButtonElement>) => {
+      context.emit('input:name', e.target.value)
+    }
+
+    return {
+      onInput
+    }
   }
 })
 </script>

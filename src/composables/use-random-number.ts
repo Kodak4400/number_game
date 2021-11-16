@@ -34,12 +34,3 @@ export class RandomNumber {
     return this.numbers
   }
 }
-
-// let randomNumber: RandomNumber
-// export function useRandomNumber(num: number) {
-//   if (!randomNumber) {
-//     randomNumber = new RandomNumber(num)
-//   }
-
-//   return randomNumber.getNumbers()
-// }
