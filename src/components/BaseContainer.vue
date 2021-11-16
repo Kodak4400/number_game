@@ -5,23 +5,21 @@
 </template>
 
 <script lang="ts">
-import { reactive, computed } from 'vue'
+import { reactive, defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   props: {
     text: {
       type: String,
       required: true,
     },
   },
-
   setup(props, { emit }) {
     props = reactive(props)
     return {
     }
   }
-
-}
+})
 </script>
 
 <style scoped>

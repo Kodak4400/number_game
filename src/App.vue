@@ -2,29 +2,37 @@
   <metainfo>
     <template v-slot:title="{ content }">{{ content ? `${content} | SITE_NAME` : `SITE_NAME` }}</template>
   </metainfo>
-  <Main />
+  <router-view></router-view>
 </template>
 
-<script setup lang="ts">
-import Main from './components/pages/Main.vue'
-import { useMeta } from 'vue-meta'
+<script lang="ts">
+import Main from '@/pages/Main.vue';
+import { useMeta } from 'vue-meta';
+import { defineComponent } from 'vue';
 
-useMeta({
-  title: 'Number Game',
-  meta: {
-    charset: 'utf-8',
+export default defineComponent({
+  components: {
+    Main,
   },
-  link: [
-    {
-      rel: 'stylesheet',
-      href: 'https://unpkg.com/nes.css@latest/css/nes.min.css',
-    },
-    {
-      rel: 'stylesheet',
-      href: 'https://fonts.googleapis.com/css?family=Press+Start+2P',
-    },
-  ],
-  // htmlAttrs: { lang: 'en', amp: true },
+  setup () {
+    useMeta({
+      title: 'Number Game',
+      meta: {
+        charset: 'utf-8',
+      },
+      link: [
+        {
+          rel: 'stylesheet',
+          href: 'https://unpkg.com/nes.css@latest/css/nes.min.css',
+        },
+        {
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css?family=Press+Start+2P',
+        },
+      ],
+      // htmlAttrs: { lang: 'en', amp: true },
+    })
+  },
 })
 </script>
 
