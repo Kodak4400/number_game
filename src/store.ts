@@ -2,7 +2,7 @@ import { User } from '@/types/User'
 import { InjectionKey } from 'vue'
 import { createStore, Store, useStore as baseUseStore } from 'vuex'
 
-type State = {
+export type State = {
   User: User
 }
 
@@ -12,17 +12,17 @@ export const store = createStore<State>({
   state: {
     User: {
       name: '',
-      score: 0
     }
   },
   mutations: {
     setUser(state, user: User) {
       state.User.name = user.name
-      state.User.score = user.score
+      state.User.scores = user.scores
     }
   },
 })
 
+// useStoreを使う時にキーの指定を省略するためのラッパー関数
 export const useStore = () => {
   return baseUseStore(key)
 }

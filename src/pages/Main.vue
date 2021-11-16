@@ -19,7 +19,7 @@ import BaseButton from '@/components/BaseButton.vue';
 import BaseContainer from '@/components/BaseContainer.vue';
 import BaseInput from '@/components/BaseInput.vue';
 import BaseText from '@/components/BaseText.vue';
-import { provide, ref, defineComponent, computed } from 'vue';
+import { provide, ref, defineComponent } from 'vue';
 import { storeData, storeKey } from '@/vueStore'
 import { useStore } from '@/store'
 
@@ -36,9 +36,11 @@ export default defineComponent ({
 
     const inputName = (value: string) => {
       name.value = value
+      // Vuexを試す
       store.commit('setUser', { name: value, score: 0 })
     }
 
+    // provide / inject を試す
     provide(storeKey, storeData(name))
 
     return {

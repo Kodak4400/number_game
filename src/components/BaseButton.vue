@@ -3,12 +3,11 @@
 </template>
 
 <script lang="ts">
-import { inject, ref, reactive, toRefs, computed, defineComponent } from 'vue'
+import { inject, reactive, toRefs, computed, defineComponent } from 'vue'
 import { useChangeMode } from '@/composables/use-change-mode'
-import { useRenderGameStart } from '@/composables/use-render-game-start'
+import { useRenderGameStart, useRenderMain } from '@/composables/use-render'
 import { useRouter } from 'vue-router'
 import { storeKey } from '@/vueStore'
-import { useStore } from '@/store'
 
 export default defineComponent({
   props: {
@@ -30,14 +29,22 @@ export default defineComponent({
   },
   setup(props, context) {
     const router = useRouter()
-    // const store = useStore()
     const {label, color } = toRefs(reactive({
       label: props.label,
       color: props.color,
     }))
     const action = 'use' + props.action.split('-').map(n => n.slice(0, 1).toUpperCase() + n.slice(1), 1).join('')
 
+    const name = inject(storeKey)
+
     const classes = computed(() => {
+      switch(action) {
+        case 'useRenderGameStart':
+          color.value = name?.value ? 'primary' : 'disabled'
+          break
+        default:
+          break
+      }
       return {
         'nes-btn': true,
         'is-primary': color.value === 'primary' ? true : false,
@@ -56,8 +63,14 @@ export default defineComponent({
           color.value = changeButtonColor
           break
         case 'useRenderGameStart':
-          const route = useRenderGameStart()
-          router.push(route)
+          const start = useRenderGameStart()
+          if (name?.value) {
+            router.push(start)
+          }
+          break
+        case 'useRenderMain':
+          const main = useRenderMain()
+          router.push(main)
           break
         default:
           break

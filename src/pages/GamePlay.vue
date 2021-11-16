@@ -64,11 +64,11 @@ export default defineComponent ({
       removeNumber(parseInt(value, 10))
     }
 
-    const totalScore = (totalScore: Array<number>) => {
-      console.log(totalScore)
-    }
-
     const userName = store.state.User.name.length ? store.state.User.name : 'No Name'
+
+    const totalScore = (totalScore: Array<number>) => {
+      store.commit('setUser', { name: userName, scores: totalScore })
+    }
 
     return {
       clickNumber,

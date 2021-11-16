@@ -1,17 +1,31 @@
 <template>
   <div class="game-end">
-    Game End Screen
+    {{ name }} got {{ score }} points!
+    <BaseButton label="Back" color="normal" action="render-main" />
   </div>
 </template>
 
 <script lang="ts">
-import CountDown from '@/components/CountDown.vue';
+import BaseContainer from '@/components/BaseContainer.vue';
+import BaseButton from '@/components/BaseButton.vue';
 import { defineComponent } from 'vue';
+import { useStore } from '@/store'
 
 export default defineComponent ({
   components: {
-    CountDown
+    BaseButton,
+    BaseContainer
   },
+  setup(props, { emit }) {
+    const store = useStore()
+    const name = store.state.User.name
+    const score = store.state.User.scores?.reduce((acc, cur) => acc + cur, 0) ?? 0
+
+    return {
+      name,
+      score
+    }
+  }
 })
 </script>
 
