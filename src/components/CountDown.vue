@@ -3,8 +3,11 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs, computed, defineComponent } from 'vue'
+import { reactive, ref, toRefs, computed, defineComponent, watch } from 'vue'
 import { useRouter } from 'vue-router'
+import { useInterval } from '@/composables/use-Interval'
+import { useTimerAction } from '@/composables/use-timer-action'
+import { Render } from '@/composables/use-render'
 
 export default defineComponent({
   props: {
@@ -52,49 +55,24 @@ export default defineComponent({
       'medium': size.value === 'medium' ? true : false,
     }))
 
-    const timerColor = (timerCount: number) => {
-      switch (action) {
-        case 'useGoToGamePlay':
-          break
-        case 'useGoToGameEnd':
-          if (timerCount < 10) {
-            color.value = 'warning'
-          }
-          if (timerCount < 5) {
-            color.value = 'error'
-          }
-          break
-        default:
-          break
-      }
-    }
+    const timer = useTimerAction(action, color, count)
 
-    const timer = computed(() => {
-      timerColor(count.value)
+    watch(count, () => {
       if (count.value === 0) {
         switch (action) {
           case 'useGoToGamePlay':
-            router.push('/play')
+            router.push(Render.GamePlay)
             break
           case 'useGoToGameEnd':
-            router.push('/end')
+            router.push(Render.GameEnd)
             break
           default:
             break
         }
-        return '0'
       }
-      return count.value
     })
 
-    // カウントダウンさせる
-    const endDate = new Date(new Date().getTime() + count.value * 1000);
-    const id = setInterval(() => {
-      count.value--
-      if (new Date().getTime() >= endDate.getTime()){
-        clearInterval(id)
-      }
-    }, 1000)
+    useInterval(() => { count.value-- }, 1000)
 
     return {
       timer,
