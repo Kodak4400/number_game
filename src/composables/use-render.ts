@@ -1,8 +1,6 @@
-
-export function useRenderGameStart() {
-  return '/start'
-}
-
-export function useRenderMain() {
-  return '/'
+export enum Render {
+  Main = '/',
+  GameStart = '/start',
+  GamePlay = '/play',
+  GameEnd = '/end',
 }
