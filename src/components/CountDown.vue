@@ -8,6 +8,7 @@ import { useRouter } from 'vue-router'
 import { useInterval } from '@/composables/use-Interval'
 import { useTimerAction } from '@/composables/use-timer-action'
 import { Render } from '@/composables/use-render'
+import { useTextClasses, isTextColorValid, isTextSizeValid } from '@/composables/use-text-classes'
 
 export default defineComponent({
   props: {
@@ -17,17 +18,12 @@ export default defineComponent({
     },
     color: {
       type: String,
-      validator: (value: string) => {
-        return ['primary', 'success', 'warning', 'error', 'disabled'].indexOf(value) !== -1
-      },
+      validator: isTextColorValid,
       required: true,
     },
     size: {
       type: String,
-      validator: (value: string) => {
-        // 今のところ、smallは作っていない
-        return ['small', 'medium', 'large'].indexOf(value) !== -1
-      },
+      validator: isTextSizeValid,
       required: true,
     },
     action: {
@@ -44,16 +40,7 @@ export default defineComponent({
     }))
     const action = 'use' + props.action.split('-').map(n => n.slice(0, 1).toUpperCase() + n.slice(1), 1).join('')
 
-    const classes = computed(() => ({
-      'nes-text': true,
-      'is-primary': color.value === 'primary' ? true : false,
-      'is-success': color.value === 'success' ? true : false,
-      'is-warning': color.value === 'warning' ? true : false,
-      'is-error': color.value === 'error' ? true : false,
-      'is-disabled': color.value === 'disabled' ? true : false,
-      'large': size.value === 'large' ? true : false,
-      'medium': size.value === 'medium' ? true : false,
-    }))
+    const classes = useTextClasses(color, size)
 
     const timer = useTimerAction(action, color, count)
 

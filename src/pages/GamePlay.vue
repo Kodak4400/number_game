@@ -1,6 +1,6 @@
 <template>
   <div class="game-play">
-    <ScoreView :name="userName" :score="score" color="success" size="small" @total:score="totalScore"/>
+    <ScoreView :name="userName" :score="score" color="success" size="small" action="calculate-score" @total:score="totalScore"/>
     <div>
       <CountDown :count="30" color="primary" size="medium" action="go-to-game-end"/>
     </div>

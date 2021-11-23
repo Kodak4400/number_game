@@ -14,4 +14,6 @@ export const useTextClasses = (color: Ref<string>, size: Ref<string>) =>
     'is-error': color.value === 'error' ? true : false,
     'is-disabled': color.value === 'disabled' ? true : false,
     large: size.value === 'large' ? true : false,
+    medium: size.value === 'medium' ? true : false,
+    small: size.value === 'small' ? true : false,
   }))

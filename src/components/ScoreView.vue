@@ -6,7 +6,9 @@
 </template>
 
 <script lang="ts">
-import { reactive, computed, defineComponent } from 'vue'
+import { reactive, toRefs, computed, defineComponent } from 'vue'
+import { useTextClasses, isTextColorValid, isTextSizeValid } from '@/composables/use-text-classes'
+import { useCalculateScore } from '@/composables/use-calculate-score'
 
 export default defineComponent({
   props: {
@@ -20,41 +22,31 @@ export default defineComponent({
     },
     color: {
       type: String,
-      validator: (value: string) => {
-        return ['primary', 'success', 'warning', 'error', 'disabled'].indexOf(value) !== -1
-      },
+      validator: isTextColorValid,
+      required: true,
     },
     size: {
       type: String,
-      validator: (value: string) => {
-        // 今のところ、small, mediumは作っていない
-        return ['small', 'medium', 'large'].indexOf(value) !== -1
-      },
+      validator: isTextSizeValid,
+      required: true,
     },
     action: {
-      type: String
+      type: String,
+      required: true,
     }
   },
   emits: ['total:score'],
-  setup(props, { emit }) {
-    const classes = computed(() => ({
-      'nes-text': true,
-      'is-primary': props.color === 'primary' ? true : false,
-      'is-success': props.color === 'success' ? true : false,
-      'is-warning': props.color === 'warning' ? true : false,
-      'is-error': props.color === 'error' ? true : false,
-      'is-disabled': props.color === 'disabled' ? true : false,
-      'small': props.size === 'small' ? true : false,
+  setup(props, context) {
+    const {color, size} = toRefs(reactive({
+      color: props.color,
+      size: props.size,
     }))
+    const action = 'use' + props.action.split('-').map(n => n.slice(0, 1).toUpperCase() + n.slice(1), 1).join('')
 
-    const scoreHistory = reactive<Array<number>>([])
+    const classes = useTextClasses(color, size)
+
     const viewScore = computed(() => {
-      if (props.score === 99) return 0
-      // 0なら1万点!!! 他は数字 * 1000倍にする!!!（この仕様良いのか!?）
-      scoreHistory.push(props.score === 0 ? 10000 : props.score * 1000)
-      const total = scoreHistory.reduce((acc, cur) => acc + cur, 0)
-      emit('total:score', scoreHistory)
-      return total
+      return useCalculateScore(props.score, context)
     })
 
     return {

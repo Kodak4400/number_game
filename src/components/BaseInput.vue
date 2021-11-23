@@ -7,10 +7,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-
-interface HTMLEvent<T extends EventTarget> extends Event {
-  target: T;
-}
+import { HTMLEvent } from '@/types/Event'
 
 export default defineComponent({
   props: {
