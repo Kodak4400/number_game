@@ -10,18 +10,22 @@
       <BaseButton label="Ranking" color="normal" action="change-mode2" />
       <BaseButton label="NORMAL MODE" color="primary" action="change-mode" />
       <BaseButton label="Credit" color="normal" action="change-mode4" />
+      <BaseButtonTest label="START-Test" color="disabled" :action="new UseBtnTestClass" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import BaseButton from '@/components/BaseButton.vue';
+import BaseButtonTest from '@/components/BaseButtonTest.vue';
 import BaseContainer from '@/components/BaseContainer.vue';
 import BaseInput from '@/components/BaseInput.vue';
 import BaseText from '@/components/BaseText.vue';
 import { provide, ref, defineComponent } from 'vue';
 import { storeData, storeKey } from '@/vueStore'
 import { useStore } from '@/store'
+import { useChangeMode } from '@/composables/use-change-mode'
+import { useBtnTest1, UseBtnTestClass } from '@/composables/use-btn-test'
 
 export default defineComponent ({
   components: {
@@ -29,6 +33,7 @@ export default defineComponent ({
     BaseContainer,
     BaseInput,
     BaseText,
+    BaseButtonTest,
   },
   setup(props, { emit }) {
     const name = ref('')
@@ -46,6 +51,7 @@ export default defineComponent ({
     return {
       name,
       inputName,
+      UseBtnTestClass,
     }
   }
 })
