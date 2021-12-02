@@ -10,7 +10,7 @@
       <BaseButton label="Ranking" color="normal" action="change-mode2" />
       <BaseButton label="NORMAL MODE" color="primary" action="change-mode" />
       <BaseButton label="Credit" color="normal" action="change-mode4" />
-      <BaseButtonTest label="START-Test" color="disabled" :action="new UseBtnTestClass" />
+      <BaseButtonTest label="START-Test" color="disabled" :action="useBtnTest1" />
     </div>
   </div>
 </template>
@@ -25,7 +25,7 @@ import { provide, ref, defineComponent } from 'vue';
 import { storeData, storeKey } from '@/vueStore'
 import { useStore } from '@/store'
 import { useChangeMode } from '@/composables/use-change-mode'
-import { useBtnTest1, UseBtnTestClass } from '@/composables/use-btn-test'
+import { useBtnTest1 } from '@/composables/use-btn-test'
 
 export default defineComponent ({
   components: {
@@ -51,7 +51,7 @@ export default defineComponent ({
     return {
       name,
       inputName,
-      UseBtnTestClass,
+      useBtnTest1,
     }
   }
 })
