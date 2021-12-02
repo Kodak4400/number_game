@@ -3,12 +3,14 @@
 </template>
 
 <script lang="ts">
-import { inject, reactive, ref, toRefs, computed, defineComponent, watch} from 'vue'
-import { useChangeMode } from '@/composables/use-change-mode'
-import { Render } from '@/composables/use-render'
-import { useRouter } from 'vue-router'
-import { storeKey } from '@/vueStore'
-import { useBtnClasses, isBtnColorValid } from '@/composables/use-btn-classes'
+import { isBtnColorValid, useBtnClasses } from '@/composables/common/use-btn-classes'
+import { defineComponent, reactive, Ref, toRefs } from 'vue'
+
+export type useActionType = {
+  label: Ref<string>
+  classes: typeof useBtnClasses
+  onClick: () => void
+}
 
 export default defineComponent({
   props: {
@@ -22,56 +24,23 @@ export default defineComponent({
       required: true,
     },
     action: {
-      type: String,
+      type: Function,
       required: true,
     }
   },
   setup(props, context) {
-    const router = useRouter()
-    const {label, color } = toRefs(reactive({
-      label: props.label,
-      color: props.color,
-    }))
-    const action = 'use' + props.action.split('-').map(n => n.slice(0, 1).toUpperCase() + n.slice(1), 1).join('')
-
-    const name = inject(storeKey) ?? ref('')
-
-    watch(name, () => {
-      switch(action) {
-        case 'useRenderGameStart':
-          color.value = name?.value ? 'primary' : 'disabled'
-          break
-        default:
-          break
-      }
-    })
-
-    const classes = useBtnClasses(color)
-
-    const onClick = () => {
-      switch(action) {
-        case 'useChangeMode':
-          const { changeLabel, changeButtonColor } = useChangeMode(label.value, color.value)
-          label.value = changeLabel
-          color.value = changeButtonColor
-          break
-        case 'useRenderGameStart':
-          if (name?.value) {
-            router.push(Render.GameStart)
-          }
-          break
-        case 'useRenderMain':
-          router.push(Render.Main)
-          break
-        default:
-          break
-      }
-    }
+    const { label, color } = toRefs(
+      reactive({
+        label: props.label,
+        color: props.color,
+      }),
+    )
+    const action: useActionType = props.action(label, color) 
 
     return {
-      label,
-      classes,
-      onClick,
+      label: action.label,
+      classes: action.classes,
+      onClick: action.onClick,
     }
   },
 })

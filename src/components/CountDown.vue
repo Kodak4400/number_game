@@ -1,14 +1,15 @@
 <template>
-  <span :class="classes">{{ timer }}</span>
+  <span :class="classes">{{ count }}</span>
 </template>
 
 <script lang="ts">
-import { reactive, ref, toRefs, computed, defineComponent, watch } from 'vue'
-import { useRouter } from 'vue-router'
-import { useInterval } from '@/composables/use-Interval'
-import { useTimerAction } from '@/composables/use-timer-action'
-import { Render } from '@/composables/use-render'
-import { useTextClasses, isTextColorValid, isTextSizeValid } from '@/composables/use-text-classes'
+import { isTextColorValid, isTextSizeValid, useTextClasses } from '@/composables/common/use-text-classes'
+import { defineComponent, reactive, Ref, toRefs } from 'vue'
+
+export type useActionType = {
+  count: Ref<number>
+  classes: typeof useTextClasses
+}
 
 export default defineComponent({
   props: {
@@ -27,43 +28,21 @@ export default defineComponent({
       required: true,
     },
     action: {
-      type: String,
+      type: Function,
       required: true,
     }
   },
   setup(props, { emit }) {
-    const router = useRouter()
     const {count, color, size} = toRefs(reactive({
       count: props.count,
       color: props.color,
       size: props.size,
     }))
-    const action = 'use' + props.action.split('-').map(n => n.slice(0, 1).toUpperCase() + n.slice(1), 1).join('')
-
-    const classes = useTextClasses(color, size)
-
-    const timer = useTimerAction(action, color, count)
-
-    watch(count, () => {
-      if (count.value === 0) {
-        switch (action) {
-          case 'useGoToGamePlay':
-            router.push(Render.GamePlay)
-            break
-          case 'useGoToGameEnd':
-            router.push(Render.GameEnd)
-            break
-          default:
-            break
-        }
-      }
-    })
-
-    useInterval(() => { count.value-- }, 1000)
+    const action: useActionType = props.action(count, color, size)
 
     return {
-      timer,
-      classes,
+      count: action.count,
+      classes: action.classes,
     }
   }
 })

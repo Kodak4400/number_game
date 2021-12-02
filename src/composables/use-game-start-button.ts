@@ -1,16 +1,10 @@
-import { useBtnClasses } from '@/composables/use-btn-classes'
+import { useBtnClasses } from '@/composables/common/use-btn-classes'
 import { storeKey } from '@/vueStore'
 import { inject, ref, Ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
-import { Render } from './use-render'
+import { Render } from './common/use-render'
 
-export type useBtnTest1Type = {
-  label: Ref<string>
-  classes: typeof useBtnClasses
-  onClick: () => void
-}
-
-export function useBtnTest1(label: Ref<string>, color: Ref<string>) {
+export function useGameStartButton(label: Ref<string>, color: Ref<string>) {
   const router = useRouter()
   const classes = useBtnClasses(color)
 
@@ -28,6 +22,6 @@ export function useBtnTest1(label: Ref<string>, color: Ref<string>) {
   return {
     label,
     classes,
-    onClick
+    onClick,
   }
 }

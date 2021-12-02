@@ -3,8 +3,12 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs, defineComponent } from 'vue'
-import { HTMLEvent } from '@/types/Event'
+import { defineComponent, reactive, Ref, toRefs } from 'vue'
+
+export type useActionType = {
+  label: Ref<string>
+  onClick: () => void
+}
 
 export default defineComponent({
   props: {
@@ -13,7 +17,7 @@ export default defineComponent({
       required: true,
     },
     action: {
-      type: String,
+      type: Function,
       required: true,
     }
   },
@@ -22,21 +26,11 @@ export default defineComponent({
     const { label } = toRefs(reactive({
       label: props.label,
     }))
-    const action = 'use' + props.action.split('-').map(n => n.slice(0, 1).toUpperCase() + n.slice(1), 1).join('')
-
-    const onClick = (e: HTMLEvent<HTMLButtonElement>) => {
-      switch(action) {
-        case 'useClickNumber':
-          context.emit('click:number', e.target.value)
-          break
-        default:
-          break
-      }
-    }
+    const action: useActionType = props.action(label, context) 
 
     return {
-      label,
-      onClick
+      label: action.label,
+      onClick: action.onClick,
     }
   },
 })

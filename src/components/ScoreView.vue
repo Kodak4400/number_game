@@ -6,9 +6,14 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs, computed, defineComponent } from 'vue'
-import { useTextClasses, isTextColorValid, isTextSizeValid } from '@/composables/use-text-classes'
-import { useCalculateScore } from '@/composables/use-calculate-score'
+import { isTextColorValid, isTextSizeValid, useTextClasses } from '@/composables/common/use-text-classes'
+import { ComputedRef, defineComponent, reactive, toRefs } from 'vue'
+
+export type useActionType = {
+  name: string,
+  classes: typeof useTextClasses,
+  viewScore: ComputedRef<number>,
+}
 
 export default defineComponent({
   props: {
@@ -31,28 +36,24 @@ export default defineComponent({
       required: true,
     },
     action: {
-      type: String,
+      type: Function,
       required: true,
     }
   },
   emits: ['total:score'],
   setup(props, context) {
-    const {color, size} = toRefs(reactive({
+    const {score, color, size} = toRefs(reactive({
+      // name: props.name,
+      score: props.score,
       color: props.color,
       size: props.size,
     }))
-    const action = 'use' + props.action.split('-').map(n => n.slice(0, 1).toUpperCase() + n.slice(1), 1).join('')
-
-    const classes = useTextClasses(color, size)
-
-    const viewScore = computed(() => {
-      return useCalculateScore(props.score, context)
-    })
+    const action: useActionType = props.action(props.name, score, color, size, context) 
 
     return {
-      classes,
-      viewScore,
-      name: props.name,
+      name: action.name,
+      classes: action.classes,
+      viewScore: action.viewScore
     }
   }
 })

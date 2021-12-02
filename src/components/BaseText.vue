@@ -3,8 +3,8 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs, computed, defineComponent } from 'vue'
-import { useTextClasses, isTextColorValid, isTextSizeValid } from '@/composables/use-text-classes'
+import { isTextColorValid, isTextSizeValid, useTextClasses } from '@/composables/common/use-text-classes'
+import { defineComponent, reactive, toRefs } from 'vue'
 
 export default defineComponent({
   props: {

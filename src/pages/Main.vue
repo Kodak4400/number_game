@@ -5,27 +5,25 @@
     </div>
     <BaseContainer text="表示された数字を３０秒間に、どれだけ多く押せるかをきそうゲームです。" />
     <BaseInput label="Your nickname" :name="name" @input:name="inputName" />
-    <BaseButton label="START" color="disabled" action="render-game-start" />
+    <BaseButton label="START" color="disabled" :action="useGameStartButton" />
     <div class="main-config">
-      <BaseButton label="Ranking" color="normal" action="change-mode2" />
-      <BaseButton label="NORMAL MODE" color="primary" action="change-mode" />
-      <BaseButton label="Credit" color="normal" action="change-mode4" />
-      <BaseButtonTest label="START-Test" color="disabled" :action="useBtnTest1" />
+      <!-- <BaseButton label="Ranking" color="normal" action="change-mode2" /> -->
+      <BaseButton label="NORMAL MODE" color="primary" :action="useChangeModeButton" />
+      <!-- <BaseButton label="Credit" color="normal" action="change-mode4" /> -->
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import BaseButton from '@/components/BaseButton.vue';
-import BaseButtonTest from '@/components/BaseButtonTest.vue';
 import BaseContainer from '@/components/BaseContainer.vue';
 import BaseInput from '@/components/BaseInput.vue';
 import BaseText from '@/components/BaseText.vue';
-import { provide, ref, defineComponent } from 'vue';
-import { storeData, storeKey } from '@/vueStore'
-import { useStore } from '@/store'
-import { useChangeMode } from '@/composables/use-change-mode'
-import { useBtnTest1 } from '@/composables/use-btn-test'
+import { useChangeModeButton } from '@/composables/use-change-mode-button';
+import { useGameStartButton } from '@/composables/use-game-start-button';
+import { useStore } from '@/store';
+import { storeData, storeKey } from '@/vueStore';
+import { defineComponent, provide, ref } from 'vue';
 
 export default defineComponent ({
   components: {
@@ -33,7 +31,6 @@ export default defineComponent ({
     BaseContainer,
     BaseInput,
     BaseText,
-    BaseButtonTest,
   },
   setup(props, { emit }) {
     const name = ref('')
@@ -51,7 +48,8 @@ export default defineComponent ({
     return {
       name,
       inputName,
-      useBtnTest1,
+      useGameStartButton,
+      useChangeModeButton,
     }
   }
 })

@@ -1,26 +1,29 @@
 <template>
   <div class="game-play">
-    <ScoreView :name="userName" :score="score" color="success" size="small" action="calculate-score" @total:score="totalScore"/>
+    <ScoreView :name="userName" :score="score" color="success" size="small" :action="useCalculateScore" @total:score="totalScore"/>
     <div>
-      <CountDown :count="30" color="primary" size="medium" action="go-to-game-end"/>
+      <CountDown :count="30" color="primary" size="medium" :action="useGameStartCount"/>
     </div>
     <div class="game-play-numbers-view">
-      <NumberView :label="number" action="delete-number" v-for="number in viewNumbers" :key="number"/>
+      <NumberView :label="number" v-for="number in viewNumbers" :key="number"/>
     </div>
     <div class="game-play-number-buttons">
-      <NumberButton :label="key" action="click-number" @click:number="clickNumber" v-for="key in keys" :key="key"/>
+      <NumberButton :label="key" :action="useGamePlayNumberButton" @click:number="clickNumber" v-for="key in keys" :key="key"/>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, computed } from 'vue';
-import CountDown from '@/components/CountDown.vue'
+import CountDown from '@/components/CountDown.vue';
 import NumberButton from '@/components/NumberButton.vue';
 import NumberView from '@/components/NumberView.vue';
 import ScoreView from '@/components/ScoreView.vue';
+import { useCalculateScore } from '@/composables/use-calculate-score';
+import { useGameStartCount } from '@/composables/use-game-play-count';
+import { useGamePlayNumberButton } from '@/composables/use-game-play-number-button';
 import { RandomNumber } from '@/composables/use-random-number';
-import { useStore } from '@/store'
+import { useStore } from '@/store';
+import { computed, defineComponent, reactive, ref } from 'vue';
 
 export default defineComponent ({
   components: {
@@ -77,6 +80,9 @@ export default defineComponent ({
       score,
       totalScore,
       userName,
+      useGameStartCount,
+      useGamePlayNumberButton,
+      useCalculateScore
     }
   }
 })
