@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import { isTextColorValid, isTextSizeValid, useTextClasses } from '@/composables/common/use-text-classes'
-import { ComputedRef, defineComponent, reactive, toRefs } from 'vue'
+import { ComputedRef, defineComponent } from 'vue'
 
 export type useActionType = {
   name: string,
@@ -42,18 +42,12 @@ export default defineComponent({
   },
   emits: ['total:score'],
   setup(props, context) {
-    const {score, color, size} = toRefs(reactive({
-      // name: props.name,
-      score: props.score,
-      color: props.color,
-      size: props.size,
-    }))
-    const action: useActionType = props.action(props.name, score, color, size, context) 
+    const action: useActionType = props.action(props, context) 
 
     return {
       name: action.name,
       classes: action.classes,
-      viewScore: action.viewScore
+      viewScore: action.viewScore,
     }
   }
 })

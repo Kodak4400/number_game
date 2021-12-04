@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import { isBtnColorValid, useBtnClasses } from '@/composables/common/use-btn-classes'
-import { defineComponent, reactive, Ref, toRefs } from 'vue'
+import { defineComponent, Ref } from 'vue'
 
 export type useActionType = {
   label: Ref<string>
@@ -28,14 +28,8 @@ export default defineComponent({
       required: true,
     }
   },
-  setup(props, context) {
-    const { label, color } = toRefs(
-      reactive({
-        label: props.label,
-        color: props.color,
-      }),
-    )
-    const action: useActionType = props.action(label, color) 
+  setup(props) {
+    const action: useActionType = props.action(props)
 
     return {
       label: action.label,

@@ -1,15 +1,15 @@
 <template>
   <div class="game-end">
     {{ name }} got {{ score }} points!
-    <BaseButton label="Back" color="normal" action="render-main" />
+    <!-- <BaseButton label="Back" color="normal" action="render-main" /> -->
   </div>
 </template>
 
 <script lang="ts">
-import BaseContainer from '@/components/BaseContainer.vue';
 import BaseButton from '@/components/BaseButton.vue';
+import BaseContainer from '@/components/BaseContainer.vue';
+import { useStore } from '@/store';
 import { defineComponent } from 'vue';
-import { useStore } from '@/store'
 
 export default defineComponent ({
   components: {
