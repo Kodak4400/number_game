@@ -24,17 +24,14 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-    const {text, color, size } = toRefs(reactive({
-      text: props.text,
+    const {color, size } = toRefs(reactive({
       color: props.color,
       size: props.size,
     }))
-
     const classes = useTextClasses(color, size)
 
     return {
       classes,
-      text
     }
   }
 })

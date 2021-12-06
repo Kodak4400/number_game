@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   props: {
@@ -13,15 +13,6 @@ export default defineComponent({
       type: Number,
       required: true,
     },
-  },
-  setup(props, context) {
-    const { label } = toRefs(reactive({
-      label: props.label,
-    }))
-
-    return {
-      label,
-    }
   },
 })
 </script>

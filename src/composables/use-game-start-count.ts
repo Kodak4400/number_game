@@ -1,11 +1,18 @@
 import { useInterval } from '@/composables/common/use-Interval'
 import { useTextClasses } from '@/composables/common/use-text-classes'
-import { Ref, watch } from 'vue'
+import { reactive, toRefs, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { Render } from './common/use-render'
 
-export function useGameStartCount(count: Ref<number>, color: Ref<string>, size: Ref<string>) {
+export function useGameStartCount(props: { count: number; color: string; size: string, action: Function }) {
   const router = useRouter()
+  const { count, color, size } = toRefs(
+    reactive({
+      count: props.count,
+      color: props.color,
+      size: props.size,
+    }),
+  )
   const classes = useTextClasses(color, size)
 
   watch(count, () => {

@@ -1,20 +1,23 @@
 <template>
   <div class="game-end">
     {{ name }} got {{ score }} points!
-    <!-- <BaseButton label="Back" color="normal" action="render-main" /> -->
+    <div class="game-end-main-back">
+      <BaseButton label="Back" color="normal" :action="useGameMainBackButton" />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import BaseButton from '@/components/BaseButton.vue';
 import BaseContainer from '@/components/BaseContainer.vue';
+import { useGameMainBackButton } from '@/composables/use-game-main-back-button';
 import { useStore } from '@/store';
 import { defineComponent } from 'vue';
 
 export default defineComponent ({
   components: {
     BaseButton,
-    BaseContainer
+    BaseContainer,
   },
   setup(props, { emit }) {
     const store = useStore()
@@ -23,7 +26,8 @@ export default defineComponent ({
 
     return {
       name,
-      score
+      score,
+      useGameMainBackButton
     }
   }
 })
@@ -35,5 +39,8 @@ export default defineComponent ({
     justify-content: center;
     align-items: center;
     height: 100vh;
+  }
+  .game-end-main-back {
+    margin-top: 1rem;
   }
 </style>

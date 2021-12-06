@@ -9,13 +9,13 @@ module.exports = {
     sourceType: 'module',
     ecmaVersion: 2020, // Node.js 12の場合は2019、他のバージョンのNode.jsを利用している場合は場合は適宜変更する
     tsconfigRootDir: __dirname,
-    project: ['./tsconfig.eslint.json']
+    project: ['./tsconfig.eslint.json'],
   },
-  plugins: [
-    '@typescript-eslint',
-  ],
-  extends: [ // ルールセット
+  plugins: ['@typescript-eslint'],
+  extends: [
+    // ルールセット
     'eslint:recommended',
+    'plugin:vue/vue3-strongly-recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'prettier',
@@ -24,4 +24,4 @@ module.exports = {
   rules: {
     // 個別のルールを追加
   },
-};
+}

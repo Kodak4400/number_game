@@ -1,13 +1,16 @@
 <template>
   <div class="nes-field">
     <label for="name_field">{{ label }}</label>
-    <input type="text" id="name_field" class="nes-input name-input" placeholder="ニックネーム" :value="name" @input="onInput">
+    <input type="text" id="name_field" class="nes-input name-input" :placeholder="placeholder" :value="name" @input="inputEvent">
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { HTMLEvent } from '@/types/Event'
+
+export type useActionType = {
+  onInput: () => void
+}
 
 export default defineComponent({
   props: {
@@ -15,19 +18,25 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    placeholder: {
+      type: String,
+      required: true,
+    },
     name: {
       type: String,
+      required: true,
+    },
+    action: {
+      type: Function,
       required: true,
     }
   },
   emits: ['input:name'],
   setup(props, context) {
-    const onInput = (e: HTMLEvent<HTMLButtonElement>) => {
-      context.emit('input:name', e.target.value)
-    }
+    const action: useActionType = props.action(props, context)
 
     return {
-      onInput
+      inputEvent: action.onInput,
     }
   }
 })

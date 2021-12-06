@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import { isTextColorValid, isTextSizeValid, useTextClasses } from '@/composables/common/use-text-classes'
-import { defineComponent, reactive, Ref, toRefs } from 'vue'
+import { defineComponent, Ref } from 'vue'
 
 export type useActionType = {
   count: Ref<number>
@@ -32,13 +32,8 @@ export default defineComponent({
       required: true,
     }
   },
-  setup(props, { emit }) {
-    const {count, color, size} = toRefs(reactive({
-      count: props.count,
-      color: props.color,
-      size: props.size,
-    }))
-    const action: useActionType = props.action(count, color, size)
+  setup(props) {
+    const action: useActionType = props.action(props)
 
     return {
       count: action.count,

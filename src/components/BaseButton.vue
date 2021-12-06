@@ -1,5 +1,5 @@
 <template>
-  <button type="button" :class="classes" @click="onClick">{{ label }}</button>
+  <button type="button" :class="classes" @click="clickEvent">{{ label }}</button>
 </template>
 
 <script lang="ts">
@@ -34,7 +34,7 @@ export default defineComponent({
     return {
       label: action.label,
       classes: action.classes,
-      onClick: action.onClick,
+      clickEvent: action.onClick,
     }
   },
 })
