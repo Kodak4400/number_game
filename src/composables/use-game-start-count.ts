@@ -1,4 +1,4 @@
-import { useInterval } from '@/composables/common/use-Interval'
+import { useInterval } from '@/composables/common/use-interval'
 import { useTextClasses } from '@/composables/common/use-text-classes'
 import { reactive, toRefs, watch } from 'vue'
 import { useRouter } from 'vue-router'
