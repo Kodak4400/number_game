@@ -11,6 +11,8 @@ Vue3を学ぶための数字ゲームです。
 - Jest + Vue Test Utils
 - Prettier
 - ESLint
+- tfenv
+- Terrafore
 
 ## 課題
 Vite + Storybookを使用しようとすると非常に重いので、Storybookを使用しない。  
@@ -28,3 +30,10 @@ SOLID原則に則る。
 
  - 単一責任の原則: Componentは単一の責任を持つ。1つのことにのみ責任を持ち、それ以外のことは責任を持たない。
  - スタイルクローズドの法則: 子は親、親は子のスタイルを知ってはならない。
+
+## Terraform
+cd terraform
+gcloud auth login
+terraform init
+terraform plan
+terraform destroy
