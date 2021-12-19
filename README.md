@@ -36,4 +36,5 @@ cd terraform
 gcloud auth login
 terraform init
 terraform plan
+terraform apply
 terraform destroy

@@ -5,9 +5,14 @@
   "engines": {
     "node": "16.x"
   },
+  "private": true,
+  "workspaces": [
+    "terraform"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
+    "build:terraform": "workspace terraform build",
     "serve": "vite preview",
     "storybook": "start-storybook -p 8888",
     "build-storybook": "build-storybook",

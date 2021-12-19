@@ -10,9 +10,11 @@
 <script lang="ts">
 import BaseButton from '@/components/BaseButton.vue';
 import BaseContainer from '@/components/BaseContainer.vue';
+import { FireStore } from '@/composables/use-firestore';
 import { useGameMainBackButton } from '@/composables/use-game-main-back-button';
+import { IStore } from '@/interface/IStore';
 import { useStore } from '@/store';
-import { defineComponent } from 'vue';
+import { defineComponent, onMounted } from 'vue';
 
 export default defineComponent ({
   components: {
@@ -20,9 +22,15 @@ export default defineComponent ({
     BaseContainer,
   },
   setup(props, { emit }) {
+    let firestore: IStore
     const store = useStore()
     const name = store.state.User.name
     const score = store.state.User.scores?.reduce((acc, cur) => acc + cur, 0) ?? 0
+
+    onMounted(() => {
+      firestore = new FireStore()
+      console.log(firestore.get())
+    })
 
     return {
       name,
